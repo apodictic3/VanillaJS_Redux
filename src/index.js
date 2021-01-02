@@ -1,17 +1,51 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import { createStore } from "redux";
 
-ReactDOM.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
-	document.getElementById("root"),
-);
+const add = document.getElementById("add");
+const minus = document.getElementById("minus");
+const number = documnet.querySelector("span");
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+number.innerText = 0;
+
+const reducer = (count = 0, action) => {
+	switch (action.type) {
+		case "Add":
+			return count + 1;
+		case "Minus":
+			return count - 1;
+		default:
+			return count;
+	}
+};
+
+const store = createStore(reducer);
+
+const onChange = () => {
+	console.log(store);
+	number.innerText = store.getState();
+};
+
+store.subscribe(onChange);
+
+add.addEventListener("click", () => store.dispatch({ type: "Add" }));
+minus.addEventListener("click", () => store.dispatch({ type: "Minus" }));
+
+// let count = 0;
+
+// number.innerText = count;
+
+// const updateText = () => {
+// 	number.innerText = count;
+// };
+
+// const handleAdd = () => {
+// 	count = count + 1;
+// 	updateText();
+// };
+
+// const handleMinus = () => {
+// 	count = count - 1;
+// 	updateText();
+// };
+
+// add.addEventListener("click", handleAdd);
+// minus.addEventListener("click", handleMinus);
